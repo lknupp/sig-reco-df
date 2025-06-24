@@ -372,6 +372,17 @@ INSERT INTO endereco (
     'DF'
 );
 
+-- Tabela de domínio dos tipos de alimento
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (1, 'Panificação');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (2, 'Fruta');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (3, 'Bebida');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (4, 'Prato proteico');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (5, 'Guarnição');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (6, 'Salada');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (7, 'Acompanhamento');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (8, 'Sobremesa');
+INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (9, 'Prato único (jantar)');
+
 
 -- Alimentos
 
@@ -462,3 +473,99 @@ INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (76, 9, 'Macar
 INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (77, 9, 'Creme de abóbora com batata, frango e couve manteiga');
 INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (78, 9, 'Arroz cremoso com carne moída');
 INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (79, 9, 'Macarronada de frango');
+
+
+-- Dados dos restaurantes
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (1, 'Restaurante Comunitário Arniqueira', 0, 0 ,'07:00:00', '19:00:00', 2);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (2, 'Restaurante Comunitário Brazlândia', 0, 0, '06:20:00', '19:00:00', 1);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (3, 'Restaurante Comunitário Ceilândia', 0, 0 ,'07:00:00', '19:00:00', 3);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (4, 'Restaurante Comunitário Estrutural', 0, 0 ,'07:00:00', '19:00:00', 4);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (5, 'Restaurante Comunitário Gama', 0, 0 ,'07:00:00', '19:00:00', 5);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (6, 'Restaurante Comunitário Itapoã', 0, 0 ,'07:00:00', '19:00:00', 6);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (7, 'Restaurante Comunitário Paranoá', 0, 0 ,'07:00:00', '19:00:00', 7);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (8, 'Restaurante Comunitário Planaltina', 0, 0 ,'07:00:00', '19:00:00', 8);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (9, 'Restaurante Comunitário Recanto das Emas', 0, 0 ,'07:00:00', '19:00:00', 9);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (10, 'Restaurante Comunitário Riacho Fundo II', 0, 0 ,'07:00:00', '19:00:00', 10);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (11, 'Restaurante Comunitário Samambaia', 0, 0 ,'07:00:00', '19:00:00', 11);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (12, 'Restaurante Comunitário Santa Maria', 0, 0 ,'07:00:00', '19:00:00', 13);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (13, 'Restaurante Comunitário São Sebastião', 0, 0 ,'07:00:00', '19:00:00', 14);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (14, 'Restaurante Comunitário Sobradinho', 0, 0 ,'07:00:00', '19:00:00', 15);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (15, 'Restaurante Comunitário Sol Nascente', 0, 0 ,'07:00:00', '19:00:00', 16);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (16, 'Restaurante Comunitário Sol Nascente/Pôr do Sol', 0, 0 ,'07:00:00', '19:00:00', 17);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (17, 'Restaurante Comunitário Varjão', 0, 0 ,'07:00:00', '19:00:00', 18);
+
+INSERT INTO restaurante (cd_rest, nome,latitude, longitude, hr_aber, hr_fech, cd_endereco)
+VALUES (18, 'Restaurante Comunitário Samambaia Expansão', 0, 0 ,'07:00:00', '19:00:00', 12);
+
+-- Dados telefones dos restaurantes
+
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (1, 61, '37737164', 1);
+
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (2, 61, '37737593', 2);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (3, 61, '37737594', 3);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (4, 61, '37737595', 4);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (5, 61, '37737596', 5);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (6, 61, '37737597', 6);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (7, 61, '37737598', 7);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (8, 61, '37737599', 8);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (9, 61, '37737600', 9);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (10, 61, '37737601', 10);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (11, 61, '37737602', 11);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (12, 61, '37737624', 18);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (13, 61, '37737623', 12);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (14, 61, '37737620', 13);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (15, 61, '37737649', 14);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (16, 61, '37737639', 15);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (17, 61, '37737636', 16);
+insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
+values (18, 61, '37737529', 17);
