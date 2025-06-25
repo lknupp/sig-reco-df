@@ -474,7 +474,7 @@ INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (77, 9, 'Creme
 INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (78, 9, 'Arroz cremoso com carne moída');
 INSERT INTO alimento (cd_alimento, tp_alimento, descricao) VALUES (79, 9, 'Macarronada de frango');
 
-
+create extension POSTGIS;
 -- Dados dos restaurantes
 SELECT AddGeometryColumn('public', 'restaurante', 'geometria', 4326, 'POINT', 2);
 
