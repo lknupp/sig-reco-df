@@ -16,28 +16,17 @@ CREATE TABLE alimento (
 );
 
 CREATE TABLE refeicao (
-    cd_refeicao VARCHAR(50) NOT NULL,
-    valor_calorico VARCHAR(20) NOT NULL,
+    cd_refeicao INTEGER NOT NULL,
+    valor_calorico INTEGER NOT NULL,
     tipo INTEGER NOT NULL,
+    cd_cardapio INTEGER NOT NULL, -- Novo campo adicionado
     CONSTRAINT pk_refeicao PRIMARY KEY (cd_refeicao)
 );
 
 CREATE TABLE refeicao_alimento (
     cd_alimento INTEGER NOT NULL,
-    cd_refeicao VARCHAR(50) NOT NULL,
+    cd_refeicao INTEGER NOT NULL,
     CONSTRAINT pk_refeicao_alimento PRIMARY KEY (cd_alimento, cd_refeicao)
-);
-
-CREATE TABLE endereco (
-    cd_endereco INTEGER NOT NULL,
-    logradouro VARCHAR(200) NOT NULL,
-    numero INTEGER,
-    complemento VARCHAR(200),
-    bairro VARCHAR(200) NOT NULL,
-    cep VARCHAR(8),
-    cidade VARCHAR(200) NOT NULL,
-    sg_estado CHAR(2) NOT NULL,
-    CONSTRAINT pk_endereco PRIMARY KEY (cd_endereco)
 );
 
 CREATE TABLE restaurante (
@@ -47,22 +36,21 @@ CREATE TABLE restaurante (
     longitude REAL NOT NULL,
     hr_aber TIME NOT NULL,
     hr_fech TIME NOT NULL,
-    cd_endereco INTEGER UNIQUE NOT NULL,
+    logradouro VARCHAR(200) NOT NULL,
+    numero INTEGER,
+    complemento VARCHAR(200),
+    bairro VARCHAR(200) NOT NULL,
+    cep VARCHAR(8),
+    cidade VARCHAR(200) NOT NULL,
+    sg_estado CHAR(2) NOT NULL,
     CONSTRAINT pk_restaurante PRIMARY KEY (cd_rest)
 );
 
 CREATE TABLE cardapio (
     cd_cardapio INTEGER NOT NULL,
-    tp_refeicao INTEGER NOT NULL,
     dt_cardapio DATE NOT NULL,
     cd_rest INTEGER NOT NULL,
     CONSTRAINT pk_cardapio PRIMARY KEY (cd_cardapio)
-);
-
-CREATE TABLE cardapio_refeicao (
-    cd_cardapio INTEGER NOT NULL,
-    cd_refeicao VARCHAR(50) NOT NULL,
-    CONSTRAINT pk_cardapio_refeicao PRIMARY KEY (cd_cardapio, cd_refeicao)
 );
 
 CREATE TABLE administra (
@@ -108,12 +96,6 @@ ALTER TABLE refeicao_alimento ADD CONSTRAINT fk_refeicao_alimento_refeicao
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 
-ALTER TABLE restaurante ADD CONSTRAINT fk_restaurante_endereco
-    FOREIGN KEY (cd_endereco)
-    REFERENCES endereco (cd_endereco)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION;
-
 ALTER TABLE telefone ADD CONSTRAINT fk_telefone_restaurante
     FOREIGN KEY (cd_rest)
     REFERENCES restaurante (cd_rest)
@@ -126,251 +108,14 @@ ALTER TABLE cardapio ADD CONSTRAINT fk_cardapio_restaurante
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 
-ALTER TABLE cardapio_refeicao ADD CONSTRAINT fk_cardapio_refeicao_cardapio
+-- Nova chave estrangeira para refeicao
+ALTER TABLE refeicao ADD CONSTRAINT fk_refeicao_cardapio
     FOREIGN KEY (cd_cardapio)
     REFERENCES cardapio (cd_cardapio)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 
-ALTER TABLE cardapio_refeicao ADD CONSTRAINT fk_cardapio_refeicao_refeicao
-    FOREIGN KEY (cd_refeicao)
-    REFERENCES refeicao (cd_refeicao)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION;
 
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    1, 
-    'Ǫuadra 36 –Área Especial 01 – Vila São José', 
-    null, 
-    '', 
-    'Brazlândia', 
-    '00000000', 
-    'Brazlândia', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    2, 
-    'QS 9 Avenida Águas Claras, Lote 3', 
-    null, 
-    '', 
-    'Arniqueira', 
-    '00000000', 
-    'Arniqueira', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    3, 
-    'CNM 01 -Bloco 01 - Lote 01 - Ceilândia Centro', 
-    1, 
-    'Ceilândia Centro', 
-    'Ceilândia', 
-    '00000000', 
-    'Ceilândia', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    4, 
-    'Ǫuadra 14 –Área Especial –Vila Estrutural', 
-    null, 
-    '', 
-    'Estrutural', 
-    '00000000', 
-    'Estrutural', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    5, 
-    'Setor Central - Área Especial - Complexo Esportivo do Gama - Estádio Bezerrão', 
-    null, 
-    '', 
-    'Gama', 
-    '00000000', 
-    'Gama', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    7, 
-    'Ǫuadra 2 - Lote A - Feira Livre - Área Especial', 
-    null, 
-    '', 
-    'Paranoá', 
-    '00000000', 
-    'Paranoá', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    6, 
-    'Ǫuadra 61 -ÁreaEspecial - Entre Conjuntos D/E, Condomínio Dellago', 
-    null, 
-    '', 
-    'Itapoã', 
-    '00000000', 
-    'Itapoã', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    8, 
-    'Setor Recreativo e Cultural - Módulo Esportivo -Via WL 1 - a/NS', 
-    null, 
-    '', 
-    'Planaltina', 
-    '00000000', 
-    'Planaltina', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    9, 
-    'Av Recanto das Emas - Ǫuadra 205 - Lote 01', 
-    null, 
-    '', 
-    'Recanto das Emas', 
-    '00000000', 
-    'Recanto das Emas', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    10, 
-    'Ǫuadra 10 -Conjunto 01 - Lote 01', 
-    null, 
-    '', 
-    'Riacho Fundo II', 
-    '00000000', 
-    'Riacho Fundo II', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    11, 
-    'ADE/S -Conjunto 15 - Lotes 01/02', 
-    null, 
-    'Às margens da BR 061', 
-    'Samambaia', 
-    '00000000', 
-    'Samambaia', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    12, 
-    'Quadra 833 - Conjunto 8 - Lote 1', 
-    null, 
-    'Samambaia Norte', 
-    'Samambaia Expansão', 
-    '00000000', 
-    'Samambaia', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    13, 
-    'Av. Alagados Área Central', 
-    null, 
-    'Junto ao prédio da Administração', 
-    'Santa Maria', 
-    '00000000', 
-    'Santa Maria', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    14, 
-    'Centro de Múltiplas Atividades -Lote 02', 
-    null, 
-    'Próximo à Administração Regional', 
-    'São Sebastião', 
-    '00000000', 
-    'São Sebastião', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    15, 
-    'AR 09 - conjunto 03 - St Administrativo', 
-    null, 
-    '', 
-    'Sobradinho', 
-    '00000000', 
-    'Sobradinho', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    16, 
-    'ǪNR 01 Área Especial nº 2 Ceilândia Norte', 
-    null, 
-    '', 
-    'Sol Nascente', 
-    '00000000', 
-    'Sol Nascente', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    17, 
-    'Ǫuadra 105 conjunto O ae 1 - trecho 02', 
-    null, 
-    '', 
-    'Sol Nascente/Pôr do Sol', 
-    '00000000', 
-    'Sol Nascente/Pôr do Sol', 
-    'DF'
-);
-
-INSERT INTO endereco (
-    cd_endereco, logradouro, numero, complemento, bairro, cep, cidade, sg_estado
-) VALUES (
-    18, 
-    'Quadra 08 conjunto F lote 01', 
-    null, 
-    '', 
-    'Varjão', 
-    '00000000', 
-    'Varjão', 
-    'DF'
-);
 
 -- Tabela de domínio dos tipos de alimento
 INSERT INTO tipo_alimento (cd_tipo_alimento, nome) VALUES (1, 'Panificação');
@@ -478,26 +223,24 @@ create extension POSTGIS;
 -- Dados dos restaurantes
 SELECT AddGeometryColumn('public', 'restaurante', 'geometria', 4326, 'POINT', 2);
 
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (1, 'Restaurante Comunitário Arniqueira', -15.869719, -48.024475, '07:00:00', '19:00:00', 2, '0101000020E6100000DC6FFFF0210348C021C5A4CA4BBD2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (2, 'Restaurante Comunitário Brazlândia', -15.665602, -48.195736, '06:20:00', '19:00:00', 1, '0101000020E6100000DC6692D30D1948C0E73B7ACCC9542FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (3, 'Restaurante Comunitário Ceilândia', -15.817427, -48.102737, '07:00:00', '19:00:00', 3, '0101000020E610000094C70371260D48C0ECA983C185A22FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (4, 'Restaurante Comunitário Estrutural', -15.781683, -47.999256, '07:00:00', '19:00:00', 4, '0101000020E6100000895970A1E7FF47C00D33D0CD38902FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (5, 'Restaurante Comunitário Gama', -16.012821, -48.061584, '07:00:00', '19:00:00', 5, '0101000020E610000012172C0FE20748C0D3BF6239480330C0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (6, 'Restaurante Comunitário Itapoã', -15.745008, -47.77057, '07:00:00', '19:00:00', 6, '0101000020E61000002AE26E06A2E247C0471582BC717D2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (7, 'Restaurante Comunitário Paranoá', -15.7793255, -47.78105, '07:00:00', '19:00:00', 7, '0101000020E6100000486B848EF9E347C0A0117FCE038F2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (8, 'Restaurante Comunitário Planaltina', -15.613478, -47.650726, '07:00:00', '19:00:00', 8, '0101000020E6100000CDBFBA064BD347C00D3BA8BF193A2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (9, 'Restaurante Comunitário Recanto das Emas', -15.904078, -48.07281, '07:00:00', '19:00:00', 9, '0101000020E610000010A0E4E8510948C0A6D5B74BE3CE2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (10, 'Restaurante Comunitário Riacho Fundo II', -15.900039, -48.050518, '07:00:00', '19:00:00', 10, '0101000020E6100000C536B668770648C0139DCEE7D1CC2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (11, 'Restaurante Comunitário Samambaia', -15.888829, -48.084877, '07:00:00', '19:00:00', 11, '0101000020E610000068A7A547DD0A48C09E3586AB14C72FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (12, 'Restaurante Comunitário Santa Maria', -16.017117, -48.01666, '07:00:00', '19:00:00', 13, '0101000020E6100000BD8858EB210248C02C28AEB9610430C0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (13, 'Restaurante Comunitário São Sebastião', -15.903878, -47.77386, '07:00:00', '19:00:00', 14, '0101000020E6100000AA751AE80DE347C01FB3331AC9CE2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (14, 'Restaurante Comunitário Sobradinho', -15.641625, -47.81953, '07:00:00', '19:00:00', 15, '0101000020E6100000C0ED9E6AE6E847C0CAA1451083482FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (15, 'Restaurante Comunitário Sol Nascente', -15.806657, -48.15339, '07:00:00', '19:00:00', 16, '0101000020E6100000B2EBD241A21348C01BF4C123029D2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (16, 'Restaurante Comunitário Sol Nascente/Pôr do Sol', -15.832067, -48.141926, '07:00:00', '19:00:00', 17, '0101000020E610000001E83D922A1248C0CA2C16AD04AA2FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (18, 'Restaurante Comunitário Samambaia Expansão', -15.8893, -48.147484, '07:00:00', '19:00:00', 12, '0101000020E6100000A8DD1ABEE01248C000B2BB6052C72FC0');
-INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, cd_endereco, geometria) VALUES (17, 'Restaurante Comunitário Varjão', -15.709124, -47.88092, '07:00:00', '19:00:00', 18, '0101000020E61000003C3DABF4C1F047C01DC1094E126B2FC0');
-
-
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (1, 'Restaurante Comunitário Arniqueira', -15.869719, -48.024475, '07:00:00', '19:00:00', 'QS 9 Avenida Águas Claras, Lote 3', NULL, '', 'Arniqueira', '00000000', 'Arniqueira', 'DF', '0101000020E6100000DC6FFFF0210348C021C5A4CA4BBD2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (2, 'Restaurante Comunitário Brazlândia', -15.665602, -48.195736, '06:20:00', '19:00:00', 'Ǫuadra 36 –Área Especial 01 – Vila São José', NULL, '', 'Brazlândia', '00000000', 'Brazlândia', 'DF', '0101000020E6100000E73B7ACCC9542FC0E73B7ACCC9542FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (3, 'Restaurante Comunitário Ceilândia', -15.817427, -48.102737, '07:00:00', '19:00:00', 'CNM 01 -Bloco 01 - Lote 01 - Ceilândia Centro', 1, 'Ceilândia Centro', 'Ceilândia', '00000000', 'Ceilândia', 'DF', '0101000020E6100000ECA983C185A22FC0ECA983C185A22FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (4, 'Restaurante Comunitário Estrutural', -15.781683, -47.999256, '07:00:00', '19:00:00', 'Ǫuadra 14 –Área Especial –Vila Estrutural', NULL, '', 'Estrutural', '00000000', 'Estrutural', 'DF', '0101000020E61000000D33D0CD38902FC00D33D0CD38902FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (5, 'Restaurante Comunitário Gama', -16.012821, -48.061584, '07:00:00', '19:00:00', 'Setor Central - Área Especial - Complexo Esportivo do Gama - Estádio Bezerrão', NULL, '', 'Gama', '00000000', 'Gama', 'DF', '0101000020E6100000D3BF6239480330C0D3BF6239480330C0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (6, 'Restaurante Comunitário Itapoã', -15.745008, -47.77057, '07:00:00', '19:00:00', 'Ǫuadra 61 -ÁreaEspecial - Entre Conjuntos D/E, Condomínio Dellago', NULL, '', 'Itapoã', '00000000', 'Itapoã', 'DF', '0101000020E6100000471582BC717D2FC0471582BC717D2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (7, 'Restaurante Comunitário Paranoá', -15.7793255, -47.78105, '07:00:00', '19:00:00', 'Ǫuadra 2 - Lote A - Feira Livre - Área Especial', NULL, '', 'Paranoá', '00000000', 'Paranoá', 'DF', '0101000020E6100000A0117FCE038F2FC0A0117FCE038F2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (8, 'Restaurante Comunitário Planaltina', -15.613478, -47.650726, '07:00:00', '19:00:00', 'Setor Recreativo e Cultural - Módulo Esportivo -Via WL 1 - a/NS', NULL, '', 'Planaltina', '00000000', 'Planaltina', 'DF', '0101000020E61000000D3BA8BF193A2FC00D3BA8BF193A2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (9, 'Restaurante Comunitário Recanto das Emas', -15.904078, -48.07281, '07:00:00', '19:00:00', 'Av Recanto das Emas - Ǫuadra 205 - Lote 01', NULL, '', 'Recanto das Emas', '00000000', 'Recanto das Emas', 'DF', '0101000020E6100000A6D5B74BE3CE2FC0A6D5B74BE3CE2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (10, 'Restaurante Comunitário Riacho Fundo II', -15.900039, -48.050518, '07:00:00', '19:00:00', 'Ǫuadra 10 -Conjunto 01 - Lote 01', NULL, '', 'Riacho Fundo II', '00000000', 'Riacho Fundo II', 'DF', '0101000020E6100000139DCEE7D1CC2FC0139DCEE7D1CC2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (11, 'Restaurante Comunitário Samambaia', -15.888829, -48.084877, '07:00:00', '19:00:00', 'ADE/S -Conjunto 15 - Lotes 01/02', NULL, 'Às margens da BR 061', 'Samambaia', '00000000', 'Samambaia', 'DF', '0101000020E61000009E3586AB14C72FC09E3586AB14C72FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (12, 'Restaurante Comunitário Santa Maria', -16.017117, -48.01666, '07:00:00', '19:00:00', 'Av. Alagados Área Central', NULL, 'Junto ao prédio da Administração', 'Santa Maria', '00000000', 'Santa Maria', 'DF', '0101000020E61000002C28AEB9610430C02C28AEB9610430C0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (13, 'Restaurante Comunitário São Sebastião', -15.903878, -47.77386, '07:00:00', '19:00:00', 'Centro de Múltiplas Atividades -Lote 02', NULL, 'Próximo à Administração Regional', 'São Sebastião', '00000000', 'São Sebastião', 'DF', '0101000020E61000001FB3331AC9CE2FC01FB3331AC9CE2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (14, 'Restaurante Comunitário Sobradinho', -15.641625, -47.81953, '07:00:00', '19:00:00', 'AR 09 - conjunto 03 - St Administrativo', NULL, '', 'Sobradinho', '00000000', 'Sobradinho', 'DF', '0101000020E6100000CAA1451083482FC0CAA1451083482FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (15, 'Restaurante Comunitário Sol Nascente', -15.806657, -48.15339, '07:00:00', '19:00:00', 'ǪNR 01 Área Especial nº 2 Ceilândia Norte', NULL, '', 'Sol Nascente', '00000000', 'Sol Nascente', 'DF', '0101000020E61000001BF4C123029D2FC01BF4C123029D2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (16, 'Restaurante Comunitário Sol Nascente/Pôr do Sol', -15.832067, -48.141926, '07:00:00', '19:00:00', 'Ǫuadra 105 conjunto O ae 1 - trecho 02', NULL, '', 'Sol Nascente/Pôr do Sol', '00000000', 'Sol Nascente/Pôr do Sol', 'DF', '0101000020E6100000CA2C16AD04AA2FC0CA2C16AD04AA2FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (18, 'Restaurante Comunitário Samambaia Expansão', -15.8893, -48.147484, '07:00:00', '19:00:00', 'Quadra 833 - Conjunto 8 - Lote 1', NULL, 'Samambaia Norte', 'Samambaia Expansão', '00000000', 'Samambaia', 'DF', '0101000020E610000000B2BB6052C72FC000B2BB6052C72FC0');
+INSERT INTO public.restaurante (cd_rest, nome, latitude, longitude, hr_aber, hr_fech, logradouro, numero, complemento, bairro, cep, cidade, sg_estado, geometria) VALUES (17, 'Restaurante Comunitário Varjão', -15.709124, -47.88092, '07:00:00', '19:00:00', 'Quadra 08 conjunto F lote 01', NULL, '', 'Varjão', '00000000', 'Varjão', 'DF', '0101000020E61000001DC1094E126B2FC01DC1094E126B2FC0');
 
 
 insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
@@ -538,116 +281,151 @@ values (17, 61, '37737636', 16);
 insert into telefone (cd_telefone , ddd, telefone, cd_rest) 
 values (18, 61, '37737529', 17);
 
-INSERT INTO refeicao (cd_refeicao, valor_calorico, tipo) VALUES
-(1, 435, 1), -- Segunda-Feira 02/06/2025: Cuscuz com manteiga e queijo
-(2, 509, 1), -- Terça-Feira 03/06/2025: Rosca
-(3, 796, 1), -- Quarta-Feira 04/06/2025: Pão com manteiga e presunto
-(4, 477, 1), -- Quinta-Feira 05/06/2025: Biscoito de queijo ou pão de queijo
-(5, 775, 1), -- Sexta-Feira 06/06/2025: Pão com manteiga e queijo
-(6, 840, 1), -- Sábado 07/06/2025: Pão com manteiga e OVO
-(7, 712, 1), -- Domingo 08/06/2025: Cuscuz com manteiga e ovo
-(8, 789, 1), -- Segunda-Feira 09/06/2025: Pão com manteiga e queijo
-(9, 691, 1), -- Terça-Feira 10/06/2025: Pão com manteiga e presunto
-(10, 470, 1), -- Quarta-Feira 11/06/2025: Biscoito de queijo ou pão de queijo
-(11, 700, 1), -- Quinta-Feira 12/06/2025: Cuscuz com manteiga e ovo
-(12, 575, 1), -- Sexta-Feira 13/06/2025: Bolo
-(13, 544, 1), -- Sábado 14/06/2025: Cuscuz com manteiga e queijo
-(14, 840, 1), -- Domingo 15/06/2025: Pão com manteiga e ovo
-(15, 712, 1), -- Segunda-Feira 16/06/2025: Cuscuz com manteiga e ovo
-(16, 530, 1), -- Terça-Feira 17/06/2025: Rosca
-(17, 418, 1), -- Quarta-Feira 18/06/2025: Cuscuz com manteiga e queijo
-(18, 796, 1), -- Quinta-Feira 19/06/2025: Pão com manteiga e presunto
-(19, 758, 1), -- Sexta-Feira 20/06/2025: Pão com manteiga e queijo
-(20, 829, 1), -- Sábado 21/06/2025: Pão com manteiga e OVO
-(21, 579, 1), -- Domingo 22/06/2025: Biscoito de queijo ou pão de queijo
-(22, 694, 1), -- Segunda-feira 23/06/2025: Pão com manteiga e presunto
-(23, 676, 1), -- Terça-feira 24/06/2025: Biscoito de queijo ou pão de queijo
-(24, 474, 1), -- Quarta-Feira 25/06/2025: Bolo
-(25, 720, 1), -- Quinta-feira 26/06/2025: Cuscuz com manteiga e ovo
-(26, 890, 1), -- Sexta-Feira 27/06/2025: Pão com manteiga e OVO
-(27, 544, 1), -- Sábado 28/06/2025: Cuscuz com manteiga e queijo
-(28, 771, 1), -- Domingo 29/06/2025: Pão com manteiga e queijo
-(29, 789, 1), -- Segunda-Feira 30/06/2025: Cuscuz com manteiga e queijo
-(30, 691, 1), -- Terça-Feira 01/07/2025: Pão com manteiga e presunto
-(31, 470, 1), -- Quarta-Feira 02/07/2025: Pão com manteiga e queijo
-(32, 700, 1), -- Quinta-Feira 03/07/2025: Cuscuz com manteiga e ovo
-(33, 575, 1), -- Sexta-Feira 04/07/2025: Bolo
-(34, 544, 1), -- Sábado 05/07/2025: Biscoito de queijo ou pão de queijo
-(35, 840, 1); -- Domingo 06/07/2025: Pão com manteiga e OVO
+-- Novos inserts para cardapio (um por data)
+INSERT INTO public.cardapio (cd_cardapio, dt_cardapio, cd_rest) VALUES
+(1, '2025-06-02', 1),
+(2, '2025-06-03', 1),
+(3, '2025-06-04', 1),
+(4, '2025-06-05', 1),
+(5, '2025-06-06', 1),
+(6, '2025-06-07', 1),
+(7, '2025-06-08', 1),
+(8, '2025-06-09', 1),
+(9, '2025-06-10', 1),
+(10, '2025-06-11', 1),
+(11, '2025-06-12', 1),
+(12, '2025-06-13', 1),
+(13, '2025-06-14', 1),
+(14, '2025-06-15', 1),
+(15, '2025-06-16', 1),
+(16, '2025-06-17', 1),
+(17, '2025-06-18', 1),
+(18, '2025-06-19', 1),
+(19, '2025-06-20', 1),
+(20, '2025-06-21', 1),
+(21, '2025-06-22', 1),
+(22, '2025-06-23', 1),
+(23, '2025-06-24', 1),
+(24, '2025-06-25', 1),
+(25, '2025-06-26', 1),
+(26, '2025-06-27', 1),
+(27, '2025-06-28', 1),
+(28, '2025-06-29', 1),
+(29, '2025-06-30', 1),
+(30, '2025-07-01', 1),
+(31, '2025-07-02', 1),
+(32, '2025-07-03', 1),
+(33, '2025-07-04', 1),
+(34, '2025-07-05', 1),
+(35, '2025-07-06', 1);
 
-INSERT INTO refeicao (cd_refeicao, valor_calorico, tipo) VALUES
-(36, 587, 3), -- Segunda-Feira 02/06/2025: Macarrão a bolonhesa
-(37, 445, 3), -- Terça-Feira 03/06/2025: Arroz carreteiro
-(38, 682, 3), -- Quarta-Feira 04/06/2025: Galinhada
-(39, 346, 3), -- Quinta-Feira 05/06/2025: Creme de abóbora com carne moída e couve-manteiga
-(40, 440, 3), -- Sexta-Feira 06/06/2025: Canja de galinha
-(41, 490, 3), -- Sábado 07/06/2025: Sopa de legumes com carne moída e macarrão
-(42, 360, 3), -- Domingo 08/06/2025: Caldo de milho com frango desfiado
-(43, 497, 3), -- Segunda-Feira 09/06/2025: Arroz colorido com frango
-(44, 472, 3), -- Terça-Feira 10/06/2025: Caldo de feijão com carne moída, macarrão e cheiro verde
-(45, 682, 3), -- Quarta-Feira 11/06/2025: Galinhada
-(46, 373, 3), -- Quinta-Feira 12/06/2025: Caldo verde com carne moída
-(47, 346, 3), -- Sexta-Feira 13/06/2025: Sopa de frango com macarrão e legumes
-(48, 862, 3), -- Sábado 14/06/2025: Pão de sal com carne moída
-(49, 360, 3), -- Domingo 15/06/2025: Caldo de batata, milho e frango
-(50, 546, 3), -- Segunda-Feira 16/06/2025: Macarronada com frango
-(51, 797, 3), -- Terça-Feira 17/06/2025: Baião de três
-(52, 682, 3), -- Quarta-Feira 18/06/2025: Galinhada
-(53, 372, 3), -- Quinta-Feira 19/06/2025: Sopa de macarrão, legumes e carne moída
-(54, 497, 3), -- Sexta-Feira 20/06/2025: Arroz colorido com frango
-(55, 435, 3), -- Sábado 21/06/2025: Vaca atolada
-(56, 445, 3), -- Domingo 22/06/2025: Arroz carreteiro
-(57, 440, 3), -- Segunda-feira 23/06/2025: Canja de galinha
-(58, 527, 3), -- Terça-feira 24/06/2025: Macarrão oriental com carne e legumes
-(59, 682, 3), -- Quarta-Feira 25/06/2025: Galinhada
-(60, 472, 3), -- Quinta-feira 26/06/2025: Caldo de feijão com macarrão e carne
-(61, 346, 3), -- Sexta-Feira 27/06/2025: Sopa de frango com macarrão e legumes
-(62, 797, 3), -- Sábado 28/06/2025: Baião de três
-(63, 286, 3), -- Domingo 29/06/2025: Creme de abóbora com batata, frango e couve manteiga
-(64, 497, 3), -- Segunda-Feira 30/06/2025: Arroz cremoso com carne moída
-(65, 472, 3), -- Terça-Feira 01/07/2025: Sopa de frango com macarrão e legumes
-(66, 682, 3), -- Quarta-Feira 02/07/2025: Galinhada
-(67, 373, 3), -- Quinta-Feira 03/07/2025: Vaca atolada
-(68, 346, 3), -- Sexta-Feira 04/07/2025: Macarronada de frango
-(69, 862, 3), -- Sábado 05/07/2025: Baião de três
-(70, 360, 3); -- Domingo 06/07/2025: Caldo de batata, milho e frango
-
-INSERT INTO refeicao (cd_refeicao, valor_calorico, tipo) VALUES
-(71, 1026, 2), -- Segunda-Feira 02/06/2025: Moqueca de peixe (posta)
-(72, 1229, 2), -- Terça-Feira 03/06/2025: Coxa / sobrecoxa de frango assado
-(73, 804, 2), -- Quarta-Feira 04/06/2025: Picadinho de carne
-(74, 1035, 2), -- Quinta-Feira 05/06/2025: Isca de frango ao molho de açafrão
-(75, 1418, 2), -- Sexta-Feira 06/06/2025: Feijoada
-(76, 892, 2), -- Sábado 07/06/2025: Silveirinha de frango
-(77, 1289, 2), -- Domingo 08/06/2025: Carne moída com milho
-(78, 934, 2), -- Segunda-Feira 09/06/2025: Isca de fígado acebolado
-(79, 1158, 2), -- Terça-Feira 10/06/2025: Coxa / sobrecoxa de frango assado
-(80, 820, 2), -- Quarta-Feira 11/06/2025: Carne bovina ao molho escuro
-(81, 1074, 2), -- Quinta-Feira 12/06/2025: Cubos de frango ao molho de tomate com manjericão
-(82, 1418, 2), -- Sexta-Feira 13/06/2025: Feijoada
-(83, 851, 2), -- Sábado 14/06/2025: Isca de frango acebolado
-(84, 875, 2), -- Domingo 15/06/2025: Carne assada ao molho escuro
-(85, 1186, 2), -- Segunda-Feira 16/06/2025: Carne moída com batata
-(86, 1293, 2), -- Terça-Feira 17/06/2025: Coxa / sobrecoxa de frango assado
-(87, 1233, 2), -- Quarta-Feira 18/06/2025: Carne suína ao barbecue
-(88, 847, 2), -- Quinta-Feira 19/06/2025: Picadinho de carne com milho
-(89, 1241, 2), -- Sexta-Feira 20/06/2025: Feijoada
-(90, 1109, 2), -- Sábado 21/06/2025: Cubos de frango a moda caipira
-(91, 882, 2), -- Domingo 22/06/2025: Carne bovina ao molho vermelho
-(92, 924, 2), -- Segunda-feira 23/06/2025: Silveirinha de carne moída
-(93, 1136, 2), -- Terça-feira 24/06/2025: Coxa / sobrecoxa de frango assado
-(94, 917, 2), -- Quarta-Feira 25/06/2025: Dobradinha
-(95, 1096, 2), -- Quinta-feira 26/06/2025: Isca de frango a pizzaiolo
-(96, 1284, 2), -- Sexta-Feira 27/06/2025: Feijoada
-(97, 1194, 2), -- Sábado 28/06/2025: Estrogonofe de frango
-(98, 1189, 2), -- Domingo 29/06/2025: Carne à chinesa
-(99, 919, 2), -- Segunda-Feira 30/06/2025: Filé de peixe ao molho de tomate
-(100, 1319, 2), -- Terça-Feira 01/07/2025: Coxa / sobrecoxa de frango assado
-(101, 917, 2), -- Quarta-Feira 02/07/2025: Picadinho de carne
-(102, 1096, 2), -- Quinta-Feira 03/07/2025: Cubos de frango ao molho com manjericão
-(103, 1284, 2), -- Sexta-Feira 04/07/2025: Feijoada
-(104, 1194, 2), -- Sábado 05/07/2025: Isca de frango com cebola caramelizada
-(105, 1175, 2); -- Domingo 06/07/2025: Cubos de carne à primavera
+-- Refeições com cd_cardapio atualizado
+INSERT INTO refeicao (cd_refeicao, valor_calorico, tipo, cd_cardapio) VALUES
+(1, 435, 1, 1), -- Segunda-Feira 02/06/2025: Cuscuz com manteiga e queijo
+(2, 509, 1, 2), -- Terça-Feira 03/06/2025: Rosca
+(3, 796, 1, 3), -- Quarta-Feira 04/06/2025: Pão com manteiga e presunto
+(4, 477, 1, 4), -- Quinta-Feira 05/06/2025: Biscoito de queijo ou pão de queijo
+(5, 775, 1, 5), -- Sexta-Feira 06/06/2025: Pão com manteiga e queijo
+(6, 840, 1, 6), -- Sábado 07/06/2025: Pão com manteiga e OVO
+(7, 712, 1, 7), -- Domingo 08/06/2025: Cuscuz com manteiga e ovo
+(8, 789, 1, 8), -- Segunda-Feira 09/06/2025: Pão com manteiga e queijo
+(9, 691, 1, 9), -- Terça-Feira 10/06/2025: Pão com manteiga e presunto
+(10, 470, 1, 10), -- Quarta-Feira 11/06/2025: Biscoito de queijo ou pão de queijo
+(11, 700, 1, 11), -- Quinta-Feira 12/06/2025: Cuscuz com manteiga e ovo
+(12, 575, 1, 12), -- Sexta-Feira 13/06/2025: Bolo
+(13, 544, 1, 13), -- Sábado 14/06/2025: Cuscuz com manteiga e queijo
+(14, 840, 1, 14), -- Domingo 15/06/2025: Pão com manteiga e ovo
+(15, 712, 1, 15), -- Segunda-Feira 16/06/2025: Cuscuz com manteiga e ovo
+(16, 530, 1, 16), -- Terça-Feira 17/06/2025: Rosca
+(17, 418, 1, 17), -- Quarta-Feira 18/06/2025: Cuscuz com manteiga e queijo
+(18, 796, 1, 18), -- Quinta-Feira 19/06/2025: Pão com manteiga e presunto
+(19, 758, 1, 19), -- Sexta-Feira 20/06/2025: Pão com manteiga e queijo
+(20, 829, 1, 20), -- Sábado 21/06/2025: Pão com manteiga e OVO
+(21, 579, 1, 21), -- Domingo 22/06/2025: Biscoito de queijo ou pão de queijo
+(22, 694, 1, 22), -- Segunda-feira 23/06/2025: Pão com manteiga e presunto
+(23, 676, 1, 23), -- Terça-feira 24/06/2025: Biscoito de queijo ou pão de queijo
+(24, 474, 1, 24), -- Quarta-Feira 25/06/2025: Bolo
+(25, 720, 1, 25), -- Quinta-feira 26/06/2025: Cuscuz com manteiga e ovo
+(26, 890, 1, 26), -- Sexta-Feira 27/06/2025: Pão com manteiga e OVO
+(27, 544, 1, 27), -- Sábado 28/06/2025: Cuscuz com manteiga e queijo
+(28, 771, 1, 28), -- Domingo 29/06/2025: Pão com manteiga e queijo
+(29, 789, 1, 29), -- Segunda-Feira 30/06/2025: Cuscuz com manteiga e queijo
+(30, 691, 1, 30), -- Terça-Feira 01/07/2025: Pão com manteiga e presunto
+(31, 470, 1, 31), -- Quarta-Feira 02/07/2025: Pão com manteiga e queijo
+(32, 700, 1, 32), -- Quinta-Feira 03/07/2025: Cuscuz com manteiga e ovo
+(33, 575, 1, 33), -- Sexta-Feira 04/07/2025: Bolo
+(34, 544, 1, 34), -- Sábado 05/07/2025: Biscoito de queijo ou pão de queijo
+(35, 840, 1, 35), -- Domingo 06/07/2025: Pão com manteiga e OVO
+(36, 587, 3, 1), -- Segunda-Feira 02/06/2025: Macarrão a bolonhesa
+(37, 445, 3, 2), -- Terça-Feira 03/06/2025: Arroz carreteiro
+(38, 682, 3, 3), -- Quarta-Feira 04/06/2025: Galinhada
+(39, 740, 3, 4), -- Quinta-Feira 05/06/2025: Creme de abóbora com carne moída e couve-manteiga
+(40, 563, 3, 5), -- Sexta-Feira 06/06/2025: Canja de galinha
+(41, 620, 3, 6), -- Sábado 07/06/2025: Sopa de legumes com carne moída e macarrão
+(42, 689, 3, 7), -- Domingo 08/06/2025: Caldo de milho(milho e fubá) com frango desfiado
+(43, 755, 3, 8), -- Segunda-Feira 09/06/2025: Arroz colorido com frango
+(44, 810, 3, 9), -- Terça-Feira 10/06/2025: Caldo de feijão com carne moída, macarrão e cheiro verde
+(45, 600, 3, 10), -- Quarta-Feira 11/06/2025: Caldo verde(batata, mandioca e couve) com carne moída
+(46, 580, 3, 11), -- Quinta-Feira 12/06/2025: Sopa de frango com macarrão e legumes
+(47, 700, 3, 12), -- Sexta-Feira 13/06/2025: Pão de sal com carne moída
+(48, 650, 3, 13), -- Sábado 14/06/2025: Caldo de batata, milho e frango
+(49, 720, 3, 14), -- Domingo 15/06/2025: Macarronada com frango
+(50, 780, 3, 15), -- Segunda-Feira 16/06/2025: Baião de três
+(51, 850, 3, 16), -- Terça-Feira 17/06/2025: Sopa de macarrão, legumes e carne moída
+(52, 630, 3, 17), -- Quarta-Feira 18/06/2025: Vaca atolada
+(53, 595, 3, 18), -- Quinta-Feira 19/06/2025: Macarrão oriental com carne e legumes
+(54, 715, 3, 19), -- Sexta-Feira 20/06/2025: Creme de abóbora com batata, frango e couve manteiga
+(55, 660, 3, 20), -- Sábado 21/06/2025: Arroz cremoso com carne moída
+(56, 730, 3, 21), -- Domingo 22/06/2025: Macarronada de frango
+(57, 790, 3, 22), -- Segunda-feira 23/06/2025: Macarrão a bolonhesa
+(58, 860, 3, 23), -- Terça-feira 24/06/2025: Arroz carreteiro
+(59, 640, 3, 24), -- Quarta-Feira 25/06/2025: Galinhada
+(60, 605, 3, 25), -- Quinta-feira 26/06/2025: Creme de abóbora com carne moída e couve-manteiga
+(61, 725, 3, 26), -- Sexta-Feira 27/06/2025: Canja de galinha
+(62, 670, 3, 27), -- Sábado 28/06/2025: Sopa de legumes com carne moída e macarrão
+(63, 740, 3, 28), -- Domingo 29/06/2025: Caldo de milho(milho e fubá) com frango desfiado
+(64, 800, 3, 29), -- Segunda-Feira 30/06/2025: Arroz colorido com frango
+(65, 870, 3, 30), -- Terça-Feira 01/07/2025: Caldo de feijão com carne moída, macarrão e cheiro verde
+(66, 650, 3, 31), -- Quarta-Feira 02/07/2025: Caldo verde(batata, mandioca e couve) com carne moída
+(67, 615, 3, 32), -- Quinta-Feira 03/07/2025: Sopa de frango com macarrão e legumes
+(68, 735, 3, 33), -- Sexta-Feira 04/07/2025: Pão de sal com carne moída
+(69, 680, 3, 34), -- Sábado 05/07/2025: Caldo de batata, milho e frango
+(70, 750, 3, 35), -- Domingo 06/07/2025: Macarronada com frango
+(71, 1026, 2, 1), -- Segunda-Feira 02/06/2025: Moqueca de peixe (posta)
+(72, 1229, 2, 2), -- Terça-Feira 03/06/2025: Coxa / sobrecoxa de frango assado
+(73, 804, 2, 3), -- Quarta-Feira 04/06/2025: Picadinho de carne
+(74, 1035, 2, 4), -- Quinta-Feira 05/06/2025: Isca de frango ao molho de açafrão
+(75, 1418, 2, 5), -- Sexta-Feira 06/06/2025: Feijoada
+(76, 892, 2, 6), -- Sábado 07/06/2025: Silveirinha de frango
+(77, 1289, 2, 7), -- Domingo 08/06/2025: Carne moída com milho
+(78, 934, 2, 8), -- Segunda-Feira 09/06/2025: Isca de fígado acebolado
+(79, 1158, 2, 9), -- Terça-Feira 10/06/2025: Coxa / sobrecoxa de frango assado
+(80, 820, 2, 10), -- Quarta-Feira 11/06/2025: Carne bovina ao molho escuro
+(81, 1074, 2, 11), -- Quinta-Feira 12/06/2025: Cubos de frango ao molho de tomate com manjericão
+(82, 1418, 2, 12), -- Sexta-Feira 13/06/2025: Feijoada
+(83, 851, 2, 13), -- Sábado 14/06/2025: Isca de frango acebolado
+(84, 875, 2, 14), -- Domingo 15/06/2025: Carne assada ao molho escuro
+(85, 1186, 2, 15), -- Segunda-Feira 16/06/2025: Carne moída com batata
+(86, 1293, 2, 16), -- Terça-Feira 17/06/2025: Coxa / sobrecoxa de frango assado
+(87, 1233, 2, 17), -- Quarta-Feira 18/06/2025: Carne suína ao barbecue
+(88, 847, 2, 18), -- Quinta-Feira 19/06/2025: Picadinho de carne com milho
+(89, 1241, 2, 19), -- Sexta-Feira 20/06/2025: Feijoada
+(90, 1109, 2, 20), -- Sábado 21/06/2025: Cubos de frango a moda caipira
+(91, 882, 2, 21), -- Domingo 22/06/2025: Carne bovina ao molho vermelho
+(92, 924, 2, 22), -- Segunda-feira 23/06/2025: Silveirinha de carne moída
+(93, 1136, 2, 23), -- Terça-feira 24/06/2025: Coxa / sobrecoxa de frango assado
+(94, 917, 2, 24), -- Quarta-Feira 25/06/2025: Dobradinha
+(95, 1096, 2, 25), -- Quinta-feira 26/06/2025: Isca de frango a pizzaiolo
+(96, 1284, 2, 26), -- Sexta-Feira 27/06/2025: Feijoada
+(97, 1194, 2, 27), -- Sábado 28/06/2025: Estrogonofe de frango
+(98, 1189, 2, 28), -- Domingo 29/06/2025: Carne à chinesa
+(99, 919, 2, 29), -- Segunda-Feira 30/06/2025: Filé de peixe ao molho de tomate
+(100, 1319, 2, 30), -- Terça-Feira 01/07/2025: Coxa / sobrecoxa de frango assado
+(101, 917, 2, 31), -- Quarta-Feira 02/07/2025: Picadinho de carne
+(102, 1096, 2, 32), -- Quinta-Feira 03/07/2025: Cubos de frango ao molho com manjericão
+(103, 1284, 2, 33), -- Sexta-Feira 04/07/2025: Feijoada
+(104, 1194, 2, 34), -- Sábado 05/07/2025: Isca de frango com cebola caramelizada
+(105, 1175, 2, 35); -- Domingo 06/07/2025: Cubos de carne à primavera
 
 
 -- Café da manhã
@@ -1105,225 +883,3 @@ INSERT INTO refeicao_alimento (cd_alimento, cd_refeicao) VALUES
 (73, 69), -- Baião de três
 (71, 70); -- Caldo de batata, milho e frango
 
-INSERT INTO cardapio (cd_cardapio, tp_refeicao, dt_cardapio, cd_rest) VALUES
--- Café da manhã (tipo = 1) - Junho/2025 e 1ª semana de Julho/2025
-(1, 1, '2025-06-02', 1),
-(2, 1, '2025-06-03', 1),
-(3, 1, '2025-06-04', 1),
-(4, 1, '2025-06-05', 1),
-(5, 1, '2025-06-06', 1),
-(6, 1, '2025-06-07', 1),
-(7, 1, '2025-06-08', 1),
-(8, 1, '2025-06-09', 1),
-(9, 1, '2025-06-10', 1),
-(10, 1, '2025-06-11', 1),
-(11, 1, '2025-06-12', 1),
-(12, 1, '2025-06-13', 1),
-(13, 1, '2025-06-14', 1),
-(14, 1, '2025-06-15', 1),
-(15, 1, '2025-06-16', 1),
-(16, 1, '2025-06-17', 1),
-(17, 1, '2025-06-18', 1),
-(18, 1, '2025-06-19', 1),
-(19, 1, '2025-06-20', 1),
-(20, 1, '2025-06-21', 1),
-(21, 1, '2025-06-22', 1),
-(22, 1, '2025-06-23', 1),
-(23, 1, '2025-06-24', 1),
-(24, 1, '2025-06-25', 1),
-(25, 1, '2025-06-26', 1),
-(26, 1, '2025-06-27', 1),
-(27, 1, '2025-06-28', 1),
-(28, 1, '2025-06-29', 1),
-(29, 1, '2025-06-30', 1),
-(30, 1, '2025-07-01', 1),
-(31, 1, '2025-07-02', 1),
-(32, 1, '2025-07-03', 1),
-(33, 1, '2025-07-04', 1),
-(34, 1, '2025-07-05', 1),
-(35, 1, '2025-07-06', 1),
--- Almoço (tipo = 2) - Junho/2025 e 1ª semana de Julho/2025. IDs a partir de 36
-(36, 2, '2025-06-02', 1),
-(37, 2, '2025-06-03', 1),
-(38, 2, '2025-06-04', 1),
-(39, 2, '2025-06-05', 1),
-(40, 2, '2025-06-06', 1),
-(41, 2, '2025-06-07', 1),
-(42, 2, '2025-06-08', 1),
-(43, 2, '2025-06-09', 1),
-(44, 2, '2025-06-10', 1),
-(45, 2, '2025-06-11', 1),
-(46, 2, '2025-06-12', 1),
-(47, 2, '2025-06-13', 1),
-(48, 2, '2025-06-14', 1),
-(49, 2, '2025-06-15', 1),
-(50, 2, '2025-06-16', 1),
-(51, 2, '2025-06-17', 1),
-(52, 2, '2025-06-18', 1),
-(53, 2, '2025-06-19', 1),
-(54, 2, '2025-06-20', 1),
-(55, 2, '2025-06-21', 1),
-(56, 2, '2025-06-22', 1),
-(57, 2, '2025-06-23', 1),
-(58, 2, '2025-06-24', 1),
-(59, 2, '2025-06-25', 1),
-(60, 2, '2025-06-26', 1),
-(61, 2, '2025-06-27', 1),
-(62, 2, '2025-06-28', 1),
-(63, 2, '2025-06-29', 1),
-(64, 2, '2025-06-30', 1),
-(65, 2, '2025-07-01', 1),
-(66, 2, '2025-07-02', 1),
-(67, 2, '2025-07-03', 1),
-(68, 2, '2025-07-04', 1),
-(69, 2, '2025-07-05', 1),
-(70, 2, '2025-07-06', 1),
--- Jantar (tipo = 3) - Junho/2025 e 1ª semana de Julho/2025. IDs a partir de 71
-(71, 3, '2025-06-02', 1),
-(72, 3, '2025-06-03', 1),
-(73, 3, '2025-06-04', 1),
-(74, 3, '2025-06-05', 1),
-(75, 3, '2025-06-06', 1),
-(76, 3, '2025-06-07', 1),
-(77, 3, '2025-06-08', 1),
-(78, 3, '2025-06-09', 1),
-(79, 3, '2025-06-10', 1),
-(80, 3, '2025-06-11', 1),
-(81, 3, '2025-06-12', 1),
-(82, 3, '2025-06-13', 1),
-(83, 3, '2025-06-14', 1),
-(84, 3, '2025-06-15', 1),
-(85, 3, '2025-06-16', 1),
-(86, 3, '2025-06-17', 1),
-(87, 3, '2025-06-18', 1),
-(88, 3, '2025-06-19', 1),
-(89, 3, '2025-06-20', 1),
-(90, 3, '2025-06-21', 1),
-(91, 3, '2025-06-22', 1),
-(92, 3, '2025-06-23', 1),
-(93, 3, '2025-06-24', 1),
-(94, 3, '2025-06-25', 1),
-(95, 3, '2025-06-26', 1),
-(96, 3, '2025-06-27', 1),
-(97, 3, '2025-06-28', 1),
-(98, 3, '2025-06-29', 1),
-(99, 3, '2025-06-30', 1),
-(100, 3, '2025-07-01', 1),
-(101, 3, '2025-07-02', 1),
-(102, 3, '2025-07-03', 1),
-(103, 3, '2025-07-04', 1),
-(104, 3, '2025-07-05', 1),
-(105, 3, '2025-07-06', 1);
-
-INSERT INTO cardapio_refeicao (cd_cardapio, cd_refeicao) VALUES
--- Associações para Café da manhã (tipo = 1)
--- cd_cardapio de 1 a 35 são associados a cd_refeicao de 1 a 35, respectivamente.
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10),
-(11, 11),
-(12, 12),
-(13, 13),
-(14, 14),
-(15, 15),
-(16, 16),
-(17, 17),
-(18, 18),
-(19, 19),
-(20, 20),
-(21, 21),
-(22, 22),
-(23, 23),
-(24, 24),
-(25, 25),
-(26, 26),
-(27, 27),
-(28, 28),
-(29, 29),
-(30, 30),
-(31, 31),
-(32, 32),
-(33, 33),
-(34, 34),
-(35, 35),
--- Associações para Almoço (tipo = 2)
--- cd_cardapio de 36 a 70 são associados a cd_refeicao de 71 a 105 (cd_refeicao = cd_cardapio + 35).
-(36, 71),
-(37, 72),
-(38, 73),
-(39, 74),
-(40, 75),
-(41, 76),
-(42, 77),
-(43, 78),
-(44, 79),
-(45, 80),
-(46, 81),
-(47, 82),
-(48, 83),
-(49, 84),
-(50, 85),
-(51, 86),
-(52, 87),
-(53, 88),
-(54, 89),
-(55, 90),
-(56, 91),
-(57, 92),
-(58, 93),
-(59, 94),
-(60, 95),
-(61, 96),
-(62, 97),
-(63, 98),
-(64, 99),
-(65, 100),
-(66, 101),
-(67, 102),
-(68, 103),
-(69, 104),
-(70, 105),
--- Associações para Jantar (tipo = 3)
--- cd_cardapio de 71 a 105 são associados a cd_refeicao de 36 a 70 (cd_refeicao = cd_cardapio - 35).
-(71, 36),
-(72, 37),
-(73, 38),
-(74, 39),
-(75, 40),
-(76, 41),
-(77, 42),
-(78, 43),
-(79, 44),
-(80, 45),
-(81, 46),
-(82, 47),
-(83, 48),
-(84, 49),
-(85, 50),
-(86, 51),
-(87, 52),
-(88, 53),
-(89, 54),
-(90, 55),
-(91, 56),
-(92, 57),
-(93, 58),
-(94, 59),
-(95, 60),
-(96, 61),
-(97, 62),
-(98, 63),
-(99, 64),
-(100, 65),
-(101, 66),
-(102, 67),
-(103, 68),
-(104, 69),
-(105, 70);
