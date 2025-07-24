@@ -109,6 +109,41 @@ public class CardapioResource {
     }
 
     /**
+     * Retorna os cardápios para uma data específica, incluindo detalhes das refeições e alimentos.
+     * Exemplo de uso: GET /cardapios/data/2025-07-22
+     * @param dateString A data no formato YYYY-MM-DD.
+     * @return Uma lista de CardapioDetalhadoDTO.
+     */
+    @GET
+    @Path("/data/{dateString}/restaurante/{cdRest}")
+    @Transactional // Necessário para carregar relações lazy
+    public Response getCardapiosByDateAndRestaurantWithDetails(@PathParam("dateString") String dateString, @PathParam("cdRest") Integer codigoRestaurante) {
+        LocalDate date;
+        try {
+            date = LocalDate.parse(dateString);
+        } catch (DateTimeParseException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                           .entity("Formato de data inválido. Use YYYY-MM-DD.")
+                           .build();
+        }
+
+        // 1. Recuperar o código do cardápio para o dia especificado (ou vários cardápios)
+        List<Cardapio> cardapios = cardapioRepository.findByDateAndRestaurantWithDetails(date, codigoRestaurante);
+
+        if (cardapios.isEmpty()) {
+            Response.ok(cardapios).build();
+        }
+
+        // 2. e 3. Recuperar as refeições e alimentos vinculados a essas refeições
+        // Isso acontecerá automaticamente (lazy loading) quando os DTOs forem construídos,
+        // pois estamos dentro de um contexto transacional (@Transactional).
+        List<CardapioDetalhadoDTO> dtos = cardapios.stream()
+                                                .map(CardapioDetalhadoDTO::new)
+                                                .collect(Collectors.toList());
+        return Response.ok(dtos).build();
+    }
+
+    /**
      * Retorna todos os cardápios para um mês e ano específicos, incluindo detalhes das refeições e alimentos.
      * Exemplo de uso: GET /cardapios/mes/2025/7 (para julho de 2025)
      * @param year O ano.

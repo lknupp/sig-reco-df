@@ -3,7 +3,7 @@ package br.gov.df.reco.reco_df.model;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Representa a tabela 'refeicao'.
  */
@@ -24,6 +24,7 @@ public class Refeicao extends PanacheEntityBase {
 
     @ManyToOne
     @JoinColumn(name = "cd_cardapio", nullable = false)
+    @JsonIgnore
     public Cardapio cardapio;
 
     // Relação Many-to-Many com Alimento através da tabela de junção refeicao_alimento
