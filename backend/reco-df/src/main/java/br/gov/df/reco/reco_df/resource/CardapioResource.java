@@ -109,9 +109,10 @@ public class CardapioResource {
     }
 
     /**
-     * Retorna os cardápios para uma data específica, incluindo detalhes das refeições e alimentos.
-     * Exemplo de uso: GET /cardapios/data/2025-07-22
+     * Retorna os cardápios para uma data e restaurante específicos, incluindo detalhes das refeições e alimentos.
+     * Exemplo de uso: GET /cardapios/data/2025-07-22/restaurante/1
      * @param dateString A data no formato YYYY-MM-DD.
+     * @param cdRest Id do restaurante
      * @return Uma lista de CardapioDetalhadoDTO.
      */
     @GET

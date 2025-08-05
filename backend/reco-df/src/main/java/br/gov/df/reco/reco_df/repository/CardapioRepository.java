@@ -21,9 +21,10 @@ public class CardapioRepository implements PanacheRepositoryBase<Cardapio, Integ
         return find("dtCardapio = ?1", date).list();
     }
 
-        /**
-     * Busca cardápios por data, incluindo suas refeições e alimentos associados.
+    /**
+     * Busca cardápios por data e restaurante, incluindo suas refeições e alimentos associados.
      * @param date A data para buscar os cardápios.
+     * @param cdRest Id do restaurante
      * @return Uma lista de Cardapio com refeições e alimentos carregados.
      */
     public List<Cardapio> findByDateAndRestaurantWithDetails(LocalDate date, Integer cdRest) {
