@@ -11,4 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class UsuarioRepository implements PanacheRepositoryBase<Usuario, Integer> {
     // Métodos Panache como listAll(), findById(), persist(), delete() já estão disponíveis.
     // Adicione métodos personalizados aqui, se necessário.
+    public Usuario findByLoginAndSenha(String login, String senha) {
+        return find("login = ?1 and senha = ?2", login, senha).firstResult();
+    }
 }
